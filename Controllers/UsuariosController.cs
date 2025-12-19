@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Mvc;
+/*using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NotasDisciplinarias.API.Data;
 using NotasDisciplinarias.API.Models;
@@ -116,3 +116,4 @@ namespace NotasDisciplinarias.API.Controllers
         }
     }
 }
+*/

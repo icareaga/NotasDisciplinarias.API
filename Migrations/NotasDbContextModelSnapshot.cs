@@ -17,7 +17,7 @@ namespace NotasDisciplinarias.API.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.0")
+                .HasAnnotation("ProductVersion", "8.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -55,47 +55,68 @@ namespace NotasDisciplinarias.API.Migrations
                     b.ToTable("Acciones");
                 });
 
-            modelBuilder.Entity("NotasDisciplinarias.API.Models.Caso", b =>
+            modelBuilder.Entity("NotasDisciplinarias.API.Models.Casos", b =>
                 {
-                    b.Property<int>("id_caso")
+                    b.Property<int>("IdCaso")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("id_caso");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdCaso"));
+
+                    b.Property<int?>("CategoriaId_Categoria")
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id_caso"));
+                    b.Property<string>("Descripcion")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("descripcion");
 
-                    b.Property<string>("descripcion")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Estatus")
+                        .HasColumnType("int")
+                        .HasColumnName("estatus");
 
-                    b.Property<DateTime>("fecha_registro")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTime>("FechaRegistro")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("fecha_registro");
 
-                    b.Property<int>("id_categoria")
+                    b.Property<int>("IdCategoria")
+                        .HasColumnType("int")
+                        .HasColumnName("id_categoria");
+
+                    b.Property<int>("IdUsuario")
+                        .HasColumnType("int")
+                        .HasColumnName("id_usuario");
+
+                    b.Property<int?>("UsuarioId_Usuario")
                         .HasColumnType("int");
 
-                    b.Property<int>("id_usuario")
-                        .HasColumnType("int");
+                    b.HasKey("IdCaso");
 
-                    b.HasKey("id_caso");
+                    b.HasIndex("CategoriaId_Categoria");
+
+                    b.HasIndex("UsuarioId_Usuario");
 
                     b.ToTable("Casos");
                 });
 
             modelBuilder.Entity("NotasDisciplinarias.API.Models.Categoria", b =>
                 {
-                    b.Property<int>("id_categoria")
+                    b.Property<int>("Id_Categoria")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("id_categoria");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id_categoria"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id_Categoria"));
 
-                    b.Property<string>("descripcion")
+                    b.Property<string>("Descripcion")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("nombre")
+                    b.Property<string>("Nombre")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("id_categoria");
+                    b.HasKey("Id_Categoria");
 
                     b.ToTable("Categorias");
                 });
@@ -122,7 +143,7 @@ namespace NotasDisciplinarias.API.Migrations
                     b.ToTable("Documentos");
                 });
 
-            modelBuilder.Entity("NotasDisciplinarias.API.Models.Evidencia", b =>
+            modelBuilder.Entity("NotasDisciplinarias.API.Models.Evidencias", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -130,22 +151,16 @@ namespace NotasDisciplinarias.API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("Casoid_caso")
+                    b.Property<int>("IdCaso")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("fecha_subida")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("id_caso")
-                        .HasColumnType("int");
-
-                    b.Property<string>("tipo_archivo")
+                    b.Property<string>("Tipo_archivo")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Casoid_caso");
+                    b.HasIndex("IdCaso");
 
                     b.ToTable("Evidencias");
                 });
@@ -248,48 +263,67 @@ namespace NotasDisciplinarias.API.Migrations
 
             modelBuilder.Entity("NotasDisciplinarias.API.Models.Usuario", b =>
                 {
-                    b.Property<int>("id_usuario")
+                    b.Property<int>("Id_Usuario")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("id_usuario");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id_usuario"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id_Usuario"));
 
                     b.Property<string>("Area")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Contrasena")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Area");
 
-                    b.Property<string>("Correo")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("Id_Jefe_Inmediato")
+                        .HasColumnType("int")
+                        .HasColumnName("id_jefe_inmediato");
 
                     b.Property<string>("Nombre_Completo")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Nombre_Completo");
 
                     b.Property<string>("Rol")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Rol");
 
-                    b.Property<string>("jefe_inmediato")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("id_usuario");
+                    b.HasKey("Id_Usuario");
 
                     b.ToTable("Usuarios");
                 });
 
-            modelBuilder.Entity("NotasDisciplinarias.API.Models.Evidencia", b =>
+            modelBuilder.Entity("NotasDisciplinarias.API.Models.Casos", b =>
                 {
-                    b.HasOne("NotasDisciplinarias.API.Models.Caso", "Caso")
+                    b.HasOne("NotasDisciplinarias.API.Models.Categoria", null)
+                        .WithMany("Casos")
+                        .HasForeignKey("CategoriaId_Categoria");
+
+                    b.HasOne("NotasDisciplinarias.API.Models.Usuario", null)
+                        .WithMany("Casos")
+                        .HasForeignKey("UsuarioId_Usuario");
+                });
+
+            modelBuilder.Entity("NotasDisciplinarias.API.Models.Evidencias", b =>
+                {
+                    b.HasOne("NotasDisciplinarias.API.Models.Casos", "Caso")
                         .WithMany()
-                        .HasForeignKey("Casoid_caso")
+                        .HasForeignKey("IdCaso")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Caso");
+                });
+
+            modelBuilder.Entity("NotasDisciplinarias.API.Models.Categoria", b =>
+                {
+                    b.Navigation("Casos");
+                });
+
+            modelBuilder.Entity("NotasDisciplinarias.API.Models.Usuario", b =>
+                {
+                    b.Navigation("Casos");
                 });
 #pragma warning restore 612, 618
         }

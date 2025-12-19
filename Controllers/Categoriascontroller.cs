@@ -1,65 +1,28 @@
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using NotasDisciplinarias.API.Data;
+using NotasDisciplinarias.API.Models;
 
-[ApiController]
-[Route("api/[controller]")]
-public class CategoriasController : ControllerBase
+namespace NotasDisciplinarias.API.Controllers
 {
-    private readonly NotasDbContext _context;
-    private readonly IMapper _mapper;
-
-    public CategoriasController(NotasDbContext context, IMapper mapper)
+    [ApiController]
+    [Route("api/[controller]")]
+    public class CategoriasController : ControllerBase
     {
-        _context = context;
-        _mapper = mapper;
-    }
+        private readonly NotasDbContext _context;
 
-    // GET: api/Categorias
+        public CategoriasController(NotasDbContext context)
+        {
+            _context = context;
+        }
+
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<CategoriaResponseDto>>> GetCategorias()
+    public async Task<ActionResult<IEnumerable<Categoria>>> GetCategorias()
     {
-        var categorias = await _context.Categorias.ToListAsync();
-        return Ok(_mapper.Map<IEnumerable<CategoriaResponseDto>>(categorias));
+        return await _context.Categorias.ToListAsync();
     }
 
-    // GET: api/Categorias/{id}
-    [HttpGet("{id}")]
-    public async Task<ActionResult<CategoriaResponseDto>> GetCategoria(int id)
-    {
-        var categoria = await _context.Categorias.FindAsync(id);
-        if (categoria == null) return NotFound();
-        return Ok(_mapper.Map<CategoriaResponseDto>(categoria));
+
     }
-
-    // POST: api/Categorias
-    [HttpPost]
-    public async Task<ActionResult<CategoriaResponseDto>> CreateCategoria([FromBody] CategoriaCreateDto dto)
-    {
-        var categoria = _mapper.Map<Categorias>(dto);
-        _context.Categorias.Add(categoria);
-        await _context.SaveChangesAsync();
-        return CreatedAtAction(nameof(GetCategoria), new { id = categoria.Id }, _mapper.Map<CategoriaResponseDto>(categoria));
-    }
-
-    // PUT: api/Categorias/{id}
-    [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateCategoria(int id, [FromBody] CategoriaCreateDto dto)
-    {
-        var categoria = await _context.Categorias.FindAsync(id);
-        if (categoria == null) return NotFound();
-
-        _mapper.Map(dto, categoria);
-        await _context.SaveChangesAsync();
-        return NoContent();
-    }
-
-    // DELETE: api/Categorias/{id}
-    [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteCategoria(int id)
-    {
-        var categoria = await _context.Categorias.FindAsync(id);
-        if (categoria == null) return NotFound();
-
-        _context.Categorias.Remove(categoria);
-        await _context.SaveChangesAsync();
-        return NoContent();
-    }
+    
 }

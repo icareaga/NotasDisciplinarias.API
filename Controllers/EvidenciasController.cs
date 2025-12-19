@@ -16,44 +16,51 @@ namespace NotasDisciplinarias.API.Controllers
             _context = context;
         }
 
+        // GET: api/Evidencias
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Evidencia>>> GetEvidencias()
+        public async Task<ActionResult<IEnumerable<Evidencias>>> GetEvidencias()
         {
             return await _context.Evidencias.ToListAsync();
         }
 
+        // GET: api/Evidencias/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Evidencia>> GetEvidencia(int id)
+        public async Task<ActionResult<Evidencias>> GetEvidencia(int id)
         {
             var evidencia = await _context.Evidencias.FindAsync(id);
-            if (evidencia == null) return NotFound();
+
+            if (evidencia == null)
+            {
+                return NotFound();
+            }
+
             return evidencia;
         }
 
+        // POST: api/Evidencias
         [HttpPost]
-        public async Task<ActionResult<Evidencia>> PostEvidencia(Evidencia evidencia)
+        public async Task<ActionResult<Evidencias>> PostEvidencia(Evidencias evidencia)
         {
             _context.Evidencias.Add(evidencia);
             await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetEvidencia), new { id = evidencia.Id }, evidencia);
+
+            return CreatedAtAction(nameof(GetEvidencia), new { id = evidencia.IdEvidencia }, evidencia);
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutEvidencia(int id, Evidencia evidencia)
-        {
-            if (id != evidencia.Id) return BadRequest();
-            _context.Entry(evidencia).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
-            return NoContent();
-        }
-
+        // DELETE: api/Evidencias/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteEvidencia(int id)
         {
             var evidencia = await _context.Evidencias.FindAsync(id);
-            if (evidencia == null) return NotFound();
+
+            if (evidencia == null)
+            {
+                return NotFound();
+            }
+
             _context.Evidencias.Remove(evidencia);
             await _context.SaveChangesAsync();
+
             return NoContent();
         }
     }

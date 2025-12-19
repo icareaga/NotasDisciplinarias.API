@@ -1,11 +1,14 @@
-namespace NotasDisciplinarias.API.Models.DTOs
+namespace NotasDisciplinarias.API.DTOs
 {
-    public class CasoResponseDto
+    public class CasosResponseDto
     {
-        public int id_caso { get; set; }
-        public string Usuario { get; set; }
-        public string Categoria { get; set; }
-        public string? Descripcion { get; set; }
-        public DateTime Fecha_Registro { get; set; }
+        public int Id { get; set; }
+        public required string Empleado { get; set; }
+        public required string Motivo { get; set; }
+        public required string LevantadoPor { get; set; }
+        public required string PasoActual { get; set; }
+       public int Estado { get; set; }
+
+        public DateTime Fecha { get; set; }
     }
 }

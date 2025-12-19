@@ -1,15 +1,16 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace NotasDisciplinarias.API.Models.DTOs
+namespace NotasDisciplinarias.API.DTOs
 {
-    public class CasoCreateDto
+    public class CasosCreateDto
     {
         [Required]
-        public int id_usuario { get; set; }
+        public int Id_usuario { get; set; }
 
         [Required]
-        public int id_categoria { get; set; }
+        public int Id_categoria { get; set; }
 
-        public string? descripcion { get; set; }
+        [Required]
+        public string Descripcion { get; set; } = string.Empty;
     }
 }

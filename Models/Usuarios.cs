@@ -1,18 +1,25 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace NotasDisciplinarias.API.Models
 {
     public class Usuario
     {
         [Key]
-        public int id_usuario { get; set; }
+        [Column("id_usuario")]
+        public int Id_Usuario { get; set; }
 
+        [Column("Nombre_Completo")]
         public string Nombre_Completo { get; set; } = string.Empty;
-        public string Correo { get; set; } = string.Empty;
-        public string Contrasena { get; set; } = string.Empty;
+
+        [Column("Rol")]
         public string Rol { get; set; } = string.Empty;
 
-        public string? Area { get; set; }
-        public string? jefe_inmediato { get; set; }
+        [Column("Area")]
+        public string Area { get; set; } = string.Empty;
+
+        [Column("id_jefe_inmediato")]
+        public int? Id_Jefe_Inmediato { get; set; }
+
     }
 }

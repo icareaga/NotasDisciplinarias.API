@@ -1,18 +1,29 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace NotasDisciplinarias.API.Models
 {
-    public class Caso
+    [Table("Casos")]
+    public class Casos
     {
         [Key]
-        public int id_caso { get; set; }
+        [Column("id_caso")]
+        public int IdCaso { get; set; }
 
-        public int id_usuario { get; set; }
-        public int id_categoria { get; set; }
+        [Column("id_usuario")]
+        public int IdUsuario { get; set; }
 
-        public Usuario Usuario { get; set; }
-        public Categoria Categoria { get; set; }
+        [Column("id_categoria")]
+        public int IdCategoria { get; set; }
 
-        public string? descripcion { get; set; }
-        public DateTime fecha_registro { get; set; } = DateTime.Now;
+        [Column("descripcion")]
+        public string Descripcion { get; set; } = string.Empty;
+
+        [Column("fecha_registro")]
+        public DateTime FechaRegistro { get; set; }
+
+        [Column("estatus")]
+        public int Estatus { get; set; }
+        
     }
 }

@@ -1,14 +1,23 @@
 using System.ComponentModel.DataAnnotations;
-namespace NotasDisciplinarias.API.Models
-{
-    public class Evidencia
+using System.ComponentModel.DataAnnotations.Schema;
+
+    namespace NotasDisciplinarias.API.Models
     {
-        [Key]
-        public int Id { get; set; }   // <-- ESTA ES LA QUE FALTA
-        public int id_caso { get; set; }
-        public string tipo_archivo { get; set; }
-        public DateTime fecha_subida { get; set; }
-        
-        public Caso Caso { get; set; } // FK
-    }
+        [Table("Evidencias")]
+        public class Evidencias
+        {
+            [Key]
+            [Column("id_evidencia")]
+            public int IdEvidencia { get; set; }
+
+            [Column("id_caso")]
+            public int IdCaso { get; set; }
+
+            [Column("ruta_archivo")]
+            public string RutaArchivo { get; set; } = string.Empty;
+
+            [Column("fecha_registro")]
+            public DateTime FechaRegistro { get; set; }
+        }
+
 }
