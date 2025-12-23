@@ -1,7 +1,9 @@
 using NotasDisciplinarias.API.Models.DTOs;
-
-public class LoginResponseDto
+namespace NotasDisciplinarias.API.DTOs
 {
-  public required string Token { get; set; }
-    public required UsuarioResponseDto Usuario { get; set; }
+    public class LoginResponseDto
+    {
+        public string Token { get; set; } = "";
+        public UsuarioResponseDto Usuario { get; set; } = new();
+    }
 }

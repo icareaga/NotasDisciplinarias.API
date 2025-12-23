@@ -1,5 +1,5 @@
 using NotasDisciplinarias.API.Data;
-
+using NotasDisciplinarias.API.Models;
 
 
 

@@ -1,13 +1,14 @@
-/*using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NotasDisciplinarias.API.Data;
+using NotasDisciplinarias.API.DTOs;
 using NotasDisciplinarias.API.Models;
 using NotasDisciplinarias.API.Models.DTOs;
 
 namespace NotasDisciplinarias.API.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/usuarios")]
     public class UsuariosController : ControllerBase
     {
         private readonly NotasDbContext _context;
@@ -19,17 +20,16 @@ namespace NotasDisciplinarias.API.Controllers
 
         // GET: api/usuarios
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<UsuarioResponseDto>>> GetUsuarios()
+        public async Task<IActionResult> GetUsuarios()
         {
+            // Solo datos de seguridad (tabla Usuarios)
             var usuarios = await _context.Usuarios
-                .Select(u => new UsuarioResponseDto
+                .Select(u => new
                 {
-                    id_usuario = u.id_usuario,
-                    Nombre_Completo = u.Nombre_Completo,
-                    Correo = u.Correo,
-                    Rol = u.Rol,
-                    Area = u.Area,
-                    Jefe_Inmediato = u.jefe_inmediato
+                    u.Id,
+                    u.Usuario,
+                    u.Rol,
+                    u.Activo
                 })
                 .ToListAsync();
 
@@ -38,65 +38,61 @@ namespace NotasDisciplinarias.API.Controllers
 
         // GET: api/usuarios/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<UsuarioResponseDto>> GetUsuario(int id)
+        public async Task<IActionResult> GetUsuario(int id)
         {
             var usuario = await _context.Usuarios.FindAsync(id);
+            if (usuario == null) return NotFound("Usuario no encontrado.");
 
-            if (usuario == null)
-                return NotFound("Usuario no encontrado.");
-
-            var dto = new UsuarioResponseDto
+            return Ok(new
             {
-                id_usuario = usuario.id_usuario,
-                Nombre_Completo = usuario.Nombre_Completo,
-                Correo = usuario.Correo,
-                Rol = usuario.Rol,
-                Area = usuario.Area,
-                Jefe_Inmediato = usuario.jefe_inmediato
-            };
-
-            return Ok(dto);
+                usuario.Id,
+                usuario.Usuario,
+                usuario.Rol,
+                usuario.Activo
+            });
         }
 
         // POST: api/usuarios
         [HttpPost]
-        public async Task<ActionResult<UsuarioResponseDto>> CrearUsuario(UsuarioCreateDto dto)
+        public async Task<IActionResult> CrearUsuario([FromBody] UsuarioCreateDto dto)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+            if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            var usuario = new Usuario
+            // Si tu UsuarioCreateDto trae Contrasena y Rol, perfecto.
+            // Si no, ahorita lo ajustamos con el nombre real.
+            var entity = new Usuarios
             {
-                Nombre_Completo = dto.Nombre_Completo,
-                Correo = dto.Correo,
-                Contrasena = dto.Contrasena, // ojo: después agregamos encriptación
+                Usuario = dto.Usuario,
+                PasswordHash = BCrypt.Net.BCrypt.HashPassword(dto.Contrasena),
                 Rol = dto.Rol,
-                Area = dto.Area,
-                jefe_inmediato = dto.Jefe_Inmediato
+                Activo = true
             };
 
-            _context.Usuarios.Add(usuario);
+            _context.Usuarios.Add(entity);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetUsuario), new { id = usuario.id_usuario }, usuario);
+            return CreatedAtAction(nameof(GetUsuario), new { id = entity.Id }, new
+            {
+                entity.Id,
+                entity.Usuario,
+                entity.Rol,
+                entity.Activo
+            });
         }
 
         // PUT: api/usuarios/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> ActualizarUsuario(int id, UsuarioUpdateDto dto)
+        public async Task<IActionResult> ActualizarUsuario(int id, [FromBody] UsuarioUpdateDto dto)
         {
             var usuario = await _context.Usuarios.FindAsync(id);
+            if (usuario == null) return NotFound("Usuario no encontrado.");
 
-            if (usuario == null)
-                return NotFound("Usuario no encontrado.");
-
-            usuario.Nombre_Completo = dto.Nombre_Completo;
             usuario.Rol = dto.Rol;
-            usuario.Area = dto.Area;
-            usuario.jefe_inmediato = dto.Jefe_Inmediato;
+
+            // Opcional: si tu update DTO trae Activo
+            // usuario.Activo = dto.Activo;
 
             await _context.SaveChangesAsync();
-
             return NoContent();
         }
 
@@ -105,15 +101,11 @@ namespace NotasDisciplinarias.API.Controllers
         public async Task<IActionResult> EliminarUsuario(int id)
         {
             var usuario = await _context.Usuarios.FindAsync(id);
-
-            if (usuario == null)
-                return NotFound("Usuario no encontrado.");
+            if (usuario == null) return NotFound("Usuario no encontrado.");
 
             _context.Usuarios.Remove(usuario);
             await _context.SaveChangesAsync();
-
             return NoContent();
         }
     }
 }
-*/

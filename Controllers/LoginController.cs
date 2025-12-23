@@ -1,9 +1,13 @@
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                    using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
+using Microsoft.Extensions.Configuration;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+using NotasDisciplinarias.API.Data;
+using NotasDisciplinarias.API.DTOs;
+using NotasDisciplinarias.API.Models;
+using System.IdentityModel.Tokens.Jwt;
 using System.Text;
-using NotasDisciplinarias.API.Models.DTOs;
+using Microsoft.EntityFrameworkCore;
 
 namespace NotasDisciplinarias.API.Controllers
 {
@@ -11,51 +15,65 @@ namespace NotasDisciplinarias.API.Controllers
     [Route("api/login")]
     public class LoginController : ControllerBase
     {
-        private readonly IConfiguration _configuration;
-        private readonly IUsuarioService _usuarioService;
+        private readonly NotasDbContext _context;
+        private readonly IConfiguration _config;
 
-        public LoginController(
-            IConfiguration configuration,
-            IUsuarioService usuarioService)
+        public LoginController(NotasDbContext context, IConfiguration config)
         {
-            _configuration = configuration;
-            _usuarioService = usuarioService;
+            _context = context;
+            _config = config;
         }
 
         [HttpPost]
-        public IActionResult Login([FromBody] LoginRequestDto request)
+        public async Task<IActionResult> Login([FromBody] LoginRequestDto request)
         {
-            var usuario = _usuarioService.ValidarUsuario(
-                request.Usuario,
-                request.Password
-            );
+            // 1) Buscar credenciales en tabla Usuarios
+            var user = await _context.Usuarios
+                .FirstOrDefaultAsync(u => u.Usuario == request.Usuario && u.Activo);
 
-            if (usuario == null)
+            if (user == null)
                 return Unauthorized("Usuario o contraseña incorrectos");
 
+            // 2) Validar password con BCrypt
+            if (!BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash))
+                return Unauthorized("Usuario o contraseña incorrectos");
+
+            // 3) Cargar datos del empleado desde la vista
+            var vista = await _context.UsuariosVista
+                .FirstOrDefaultAsync(v => v.id == user.Id);
+
+            if (vista == null)
+                return Unauthorized("No se encontró información del colaborador en UsuariosVista");
+
+          
+            // 4) Claims
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.NameIdentifier, usuario.Id.ToString()),
-                new Claim(ClaimTypes.Name, usuario.Usuario),
-                new Claim(ClaimTypes.Role, usuario.Rol),
+                new System.Security.Claims.Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new System.Security.Claims.Claim(ClaimTypes.Role, user.Rol),
 
-                new Claim("Region", usuario.Region),
-                new Claim("Plaza", usuario.Plaza)
+                new System.Security.Claims.Claim("Nombre", vista.Nombre_Completo),
+                new System.Security.Claims.Claim("Correo", vista.correo),
+                new System.Security.Claims.Claim("Area", vista.area),
+                new System.Security.Claims.Claim("Departamento", vista.departamento),
+                new System.Security.Claims.Claim("Plaza", vista.plaza),
+                new System.Security.Claims.Claim("PlazaJefe", vista.plaza_jefe)
+
             };
 
             var token = GenerarToken(claims);
 
+            // 5) Response
             var response = new LoginResponseDto
             {
                 Token = token,
-               Usuario = new UsuarioResponseDto
+                Usuario = new UsuarioResponseDto
                 {
-                    id_usuario = usuario.Id,
-                    Rol = usuario.Rol,
-                    Nombre_Completo = "ivan careaga panduro", // o Nombre + Apellido si lo tienes
-                    Correo = usuario.Usuario + "@megacable.com.mx" //  campo real
+                    Id = user.Id,
+                    Rol = user.Rol,
+                    Nombre_Completo = vista.Nombre_Completo,
+                    Correo = vista.correo
                 }
-
             };
 
             return Ok(response);
@@ -63,28 +81,21 @@ namespace NotasDisciplinarias.API.Controllers
 
         private string GenerarToken(List<Claim> claims)
         {
-            var key = new SymmetricSecurityKey(
-               Encoding.UTF8.GetBytes(
-                    _configuration["Jwt:Key"] 
-                    ?? throw new InvalidOperationException("JWT Key no configurada")
-                )
+            var key = _config["Jwt:Key"] ?? throw new InvalidOperationException("Jwt:Key no configurada");
+            var issuer = _config["Jwt:Issuer"] ?? throw new InvalidOperationException("Jwt:Issuer no configurado");
 
-            );
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
+            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
-            var creds = new SigningCredentials(
-                key,
-                SecurityAlgorithms.HmacSha256
-            );
-
-            var token = new JwtSecurityToken(
-                issuer: _configuration["Jwt:Issuer"],
-                audience: _configuration["Jwt:Issuer"],
+            var jwt = new JwtSecurityToken(
+                issuer: issuer,
+                audience: issuer,
                 claims: claims,
                 expires: DateTime.UtcNow.AddHours(2),
-                signingCredentials: creds
+                signingCredentials: credentials
             );
 
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            return new JwtSecurityTokenHandler().WriteToken(jwt);
         }
     }
 }

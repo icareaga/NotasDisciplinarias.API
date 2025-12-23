@@ -1,5 +1,8 @@
-public class LoginRequestDto
+namespace NotasDisciplinarias.API.DTOs
 {
-    public required string Usuario { get; set; }
-    public required string Password { get; set; }
+    public class LoginRequestDto
+    {
+        public string Usuario { get; set; } = "";
+        public string Password { get; set; } = "";
+    }
 }

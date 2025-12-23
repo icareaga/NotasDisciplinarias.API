@@ -1,54 +1,60 @@
-
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
+using Microsoft.EntityFrameworkCore;
 using NotasDisciplinarias.API.Data;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.OpenApi.Models;
 
 
 var builder = WebApplication.CreateBuilder(args);
 
-// DB
-builder.Services.AddDbContext<NotasDbContext>();
+// ================================
+// 🔹 DB CONTEXT
+// ================================
+builder.Services.AddDbContext<NotasDbContext>(options =>
+    options.UseSqlServer(
+        builder.Configuration.GetConnectionString("DefaultConnection")
+    )
+);
 
-// Services
-builder.Services.AddScoped<IUsuarioService, UsuarioService>();
+// ================================
+// 🔹 CORS (PERMITIR ANGULAR)
+// ================================
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAngular",
+        policy =>
+        {
+            policy
+                .WithOrigins("http://localhost:4200")
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+        });
+});
 
-// Controllers
+// ================================
+// 🔹 SERVICES
+// ================================
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Auth
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
-    {
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidateLifetime = true,
-            ValidateIssuerSigningKey = true,
-            ValidIssuer = builder.Configuration["Jwt:Issuer"],
-            ValidAudience = builder.Configuration["Jwt:Issuer"],
-            IssuerSigningKey = new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes(
-                    builder.Configuration["Jwt:Key"]
-                    ?? throw new InvalidOperationException("JWT Key no configurada")
-                )
-            )
-        };
-    });
-
+// ================================
+// 🔹 APP
+// ================================
 var app = builder.Build();
 
-// Middleware
+// ================================
+// 🔹 MIDDLEWARE
+// ================================
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-app.UseAuthentication();
+app.UseHttpsRedirection();
+
+// 🔥 CORS VA AQUÍ, ANTES DE AUTH Y MAPCONTROLLERS
+app.UseCors("AllowAngular");
+
 app.UseAuthorization();
 
 app.MapControllers();
