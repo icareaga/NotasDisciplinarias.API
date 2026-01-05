@@ -125,11 +125,6 @@ C:\Users\icareaga\Documents\NotasDisciplinarias.API\obj\Debug\net8.0\NotasDiscip
 C:\Users\icareaga\Documents\NotasDisciplinarias.API\obj\Debug\net8.0\NotasDisciplinarias.API.sourcelink.json
 C:\Users\icareaga\Documents\NotasDisciplinarias.API\obj\Debug\net8.0\staticwebassets.build.json
 C:\Users\icareaga\Documents\NotasDisciplinarias.API\obj\Debug\net8.0\staticwebassets.development.json
-C:\Users\icareaga\Documents\NotasDisciplinarias.API\obj\Debug\net8.0\staticwebassets\msbuild.NotasDisciplinarias.API.Microsoft.AspNetCore.StaticWebAssets.props
-C:\Users\icareaga\Documents\NotasDisciplinarias.API\obj\Debug\net8.0\staticwebassets\msbuild.build.NotasDisciplinarias.API.props
-C:\Users\icareaga\Documents\NotasDisciplinarias.API\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.NotasDisciplinarias.API.props
-C:\Users\icareaga\Documents\NotasDisciplinarias.API\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.NotasDisciplinarias.API.props
-C:\Users\icareaga\Documents\NotasDisciplinarias.API\obj\Debug\net8.0\staticwebassets.pack.json
 C:\Users\icareaga\Documents\NotasDisciplinarias.API\obj\Debug\net8.0\scopedcss\bundle\NotasDisciplinarias.API.styles.css
 C:\Users\icareaga\Documents\NotasDisciplinarias.API\obj\Debug\net8.0\NotasDis.645EF240.Up2Date
 C:\Users\icareaga\Documents\NotasDisciplinarias.API\obj\Debug\net8.0\NotasDisciplinarias.API.dll
@@ -137,3 +132,11 @@ C:\Users\icareaga\Documents\NotasDisciplinarias.API\obj\Debug\net8.0\refint\Nota
 C:\Users\icareaga\Documents\NotasDisciplinarias.API\obj\Debug\net8.0\NotasDisciplinarias.API.pdb
 C:\Users\icareaga\Documents\NotasDisciplinarias.API\obj\Debug\net8.0\NotasDisciplinarias.API.genruntimeconfig.cache
 C:\Users\icareaga\Documents\NotasDisciplinarias.API\obj\Debug\net8.0\ref\NotasDisciplinarias.API.dll
+C:\Users\icareaga\Documents\NotasDisciplinarias.API\bin\Debug\net8.0\NotasDisciplinarias.API.staticwebassets.endpoints.json
+C:\Users\icareaga\Documents\NotasDisciplinarias.API\obj\Debug\net8.0\rpswa.dswa.cache.json
+C:\Users\icareaga\Documents\NotasDisciplinarias.API\obj\Debug\net8.0\rjimswa.dswa.cache.json
+C:\Users\icareaga\Documents\NotasDisciplinarias.API\obj\Debug\net8.0\rjsmrazor.dswa.cache.json
+C:\Users\icareaga\Documents\NotasDisciplinarias.API\obj\Debug\net8.0\rjsmcshtml.dswa.cache.json
+C:\Users\icareaga\Documents\NotasDisciplinarias.API\obj\Debug\net8.0\staticwebassets.build.json.cache
+C:\Users\icareaga\Documents\NotasDisciplinarias.API\obj\Debug\net8.0\staticwebassets.build.endpoints.json
+C:\Users\icareaga\Documents\NotasDisciplinarias.API\obj\Debug\net8.0\swae.build.ex.cache

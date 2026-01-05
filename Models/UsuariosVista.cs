@@ -9,9 +9,10 @@ namespace NotasDisciplinarias.API.Models
         public string area { get; set; } = "";
         public string puesto { get; set; } = "";
         public string departamento { get; set; } = "";
-        public int? id_jefe_inmediato { get; set; }
-        public string plaza { get; set; } = "";
-        public string plaza_jefe { get; set; } = "";
+        public int id_jefe_inmediato { get; set; }
+        public int plaza { get; set; }
+        public int plaza_jefe { get; set; }
         public string correo { get; set; } = "";
+        public string rol { get; set; } = "";
     }
 }

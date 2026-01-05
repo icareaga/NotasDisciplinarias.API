@@ -23,14 +23,14 @@ public class AdminController : ControllerBase
     {
         var plazaJefe = User.FindFirst("Plaza")?.Value;
 
-        if (string.IsNullOrEmpty(plazaJefe))
+        if (string.IsNullOrEmpty(plazaJefe) || !int.TryParse(plazaJefe, out int plazaJefeId))
             return Unauthorized("No se pudo determinar la plaza del usuario");
 
         var casos = await (
             from c in _context.Casos
             join u in _context.UsuariosVista on c.IdUsuario equals u.id
             join cat in _context.Categorias on c.IdCategoria equals cat.Id_Categoria
-            where u.plaza_jefe == plazaJefe
+            where u.plaza_jefe == plazaJefeId
                   && c.Estatus == 1
             select new CasoAdminResponseDto
             {
