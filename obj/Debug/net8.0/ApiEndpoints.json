@@ -26,6 +26,22 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "CasosController",
+    "Method": "GetCasosByUsuario",
+    "RelativePath": "api/Casos/usuario/{idUsuario}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "idUsuario",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "NotasDisciplinarias.API.Controllers.CategoriasController",
     "Method": "GetCategorias",
     "RelativePath": "api/Categorias",

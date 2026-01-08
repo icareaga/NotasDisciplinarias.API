@@ -58,7 +58,7 @@ namespace NotasDisciplinarias.API.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            // Si UsuarioCreateDto trae Contrasena y Rol, perfecto.
+            // Si tu UsuarioCreateDto trae Contrasena y Rol, perfecto.
             // Si no, ahorita lo ajustamos con el nombre real.
             var entity = new Usuarios
             {

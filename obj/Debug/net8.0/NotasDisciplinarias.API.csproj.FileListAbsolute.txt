@@ -273,10 +273,10 @@ C:\Users\ocastroh\Documents\NotasDisciplinarias.API\obj\Debug\net8.0\staticwebas
 C:\Users\ocastroh\Documents\NotasDisciplinarias.API\obj\Debug\net8.0\staticwebassets.development.json
 C:\Users\ocastroh\Documents\NotasDisciplinarias.API\obj\Debug\net8.0\staticwebassets.build.endpoints.json
 C:\Users\ocastroh\Documents\NotasDisciplinarias.API\obj\Debug\net8.0\swae.build.ex.cache
-C:\Users\ocastroh\Documents\NotasDisciplinarias.API\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
 C:\Users\ocastroh\Documents\NotasDisciplinarias.API\obj\Debug\net8.0\NotasDis.645EF240.Up2Date
 C:\Users\ocastroh\Documents\NotasDisciplinarias.API\obj\Debug\net8.0\NotasDisciplinarias.API.dll
 C:\Users\ocastroh\Documents\NotasDisciplinarias.API\obj\Debug\net8.0\refint\NotasDisciplinarias.API.dll
 C:\Users\ocastroh\Documents\NotasDisciplinarias.API\obj\Debug\net8.0\NotasDisciplinarias.API.pdb
 C:\Users\ocastroh\Documents\NotasDisciplinarias.API\obj\Debug\net8.0\NotasDisciplinarias.API.genruntimeconfig.cache
 C:\Users\ocastroh\Documents\NotasDisciplinarias.API\obj\Debug\net8.0\ref\NotasDisciplinarias.API.dll
+C:\Users\ocastroh\Documents\NotasDisciplinarias.API\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt

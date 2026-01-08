@@ -17,6 +17,29 @@
         }
       }
     },
+    "/api/Casos/usuario/{idUsuario}": {
+      "get": {
+        "tags": [
+          "Casos"
+        ],
+        "parameters": [
+          {
+            "name": "idUsuario",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
     "/api/Casos/crear": {
       "post": {
         "tags": [
