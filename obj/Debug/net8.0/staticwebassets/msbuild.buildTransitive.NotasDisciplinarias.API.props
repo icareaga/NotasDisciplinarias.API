@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\buildMultiTargeting\NotasDisciplinarias.API.props" />
+</Project>

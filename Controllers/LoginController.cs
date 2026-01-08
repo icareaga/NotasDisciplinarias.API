@@ -79,7 +79,7 @@ namespace NotasDisciplinarias.API.Controllers
                   ejec
               };
             */
-            var url = "http://localhost:4200/login?acces_token=" + token;
+            var url = "http://localhost:4200/admin?acces_token=" + token;
             return Ok(new { ejecucion = true, link = url, data =  new {
                 Id = vista.id,
                       Rol = vista.rol,
